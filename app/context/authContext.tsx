@@ -12,21 +12,23 @@ type AuthContextType = {
     user: User | null;
     signIn: () => void;
     signOut: () => void;
-    isSignedIn: boolean;
+    loading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children } : { children: React.ReactNode }) => {
     const [user, setUser] = useState<User | null>(null);
+    const [loading, setLoading] = useState(true);
 
-    const mockUser: User = { id: '1', name: 'Ishaan', email: 'ishaan@gmail.com'};
+    const mockUser: User = { id: '1', name: 'Ishaan', email: 'a.ishaanbhagwat@gmail.com'};
 
     useEffect(() => {
         const stored = localStorage.getItem('LOCAL_STORAGE_KEY');
         if (stored) {
             setUser(JSON.parse(stored));
         }
+        setLoading(false);
     }, []);
 
     useEffect(() => {
@@ -50,7 +52,7 @@ export const AuthProvider = ({ children } : { children: React.ReactNode }) => {
             user,
             signIn,
             signOut,
-            isSignedIn: !!user,
+            loading,
         }}>
             { children }
         </AuthContext.Provider>

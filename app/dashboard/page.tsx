@@ -6,12 +6,18 @@ import { useRouter } from "next/navigation";
 import { Header } from "@/components/header";
 
 export default function Dashboard() {
-    const {user, signOut, isSignedIn} = useAuth();
+    const {user, loading, signOut} = useAuth();
     const router = useRouter();
 
     useEffect(() => {
-        if(!user) router.push('/login');
-    }, [user]);
+        if (!loading && user === null) {
+            router.replace('/login');
+        }
+    }, [user, loading, router]);
+
+    if(loading || !user){
+        return null;
+    }
 
     return(
         <div>

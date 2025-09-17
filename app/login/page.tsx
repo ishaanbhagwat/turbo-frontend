@@ -10,10 +10,19 @@ function sleep(ms: number): Promise<void>{
 }
 
 export default function Login() {
-    const {signIn, isSignedIn, user} = useAuth();
+    const {signIn, user, loading} = useAuth();
     const router = useRouter();
     const [signInGoogle, setSignInGoogle] = useState(false);
     const [signInGithub, setSignInGithub] = useState(false);
+
+    useEffect(() => {
+        if (!loading && user) router.replace("/dashboard");
+    }, [user, router, loading]);
+
+    if (user || loading) {
+        return null;
+    }
+
     const handleGoogleLogin = async() => {
         setSignInGoogle(true);
         await sleep(3000);
@@ -26,10 +35,6 @@ export default function Login() {
         signIn();
         setSignInGithub(false);
     }
-
-    useEffect(() => {
-        if (user) router.push("/dashboard");
-    }, [user]);
 
     return(
         <div className='flex items-center justify-center min-h-screen'>
