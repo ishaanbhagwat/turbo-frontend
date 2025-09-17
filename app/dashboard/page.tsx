@@ -1,12 +1,12 @@
 'use client';
 
-import React, { use, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useAuth } from "@/app/context/authContext";
 import { useRouter } from "next/navigation";
 import { Header } from "@/components/header";
 
 export default function Dashboard() {
-    const {user, loading, signOut} = useAuth();
+    const {user, loading} = useAuth();
     const router = useRouter();
 
     useEffect(() => {
@@ -23,7 +23,7 @@ export default function Dashboard() {
         <div>
             <Header />
             <div>
-                Hello {user?.name!}
+                Hello {user?.name}
             </div>
         </div>
     );
